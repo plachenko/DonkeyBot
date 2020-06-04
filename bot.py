@@ -8,7 +8,7 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix=commands.when_mentioned, help_command=None)
 
-initial_extensions = ['cogs.fun']
+initial_extensions = ['cogs.fun','cogs.rob']
 
 if __name__ == '__main__':
     for extension in initial_extensions:
