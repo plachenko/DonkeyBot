@@ -5,21 +5,22 @@ import datetime
 from datetime import date
 from random import seed
 from random import choice
+import time
 
 class FunCog(commands.Cog):
-    activeUsers = []
-    noon = None
-    lastCoolGuy = None
 
     def __init__(self, client):
         self.client = client
+
         with open("data/activeUsers.txt", "r") as f:
             self.activeUsers = f.read()
             self.activeUsers = self.activeUsers.split("\n")
 
-        self.noon = datetime.datetime.now().replace(hour=12, minute=0, second=0, microsecond=0)
         with open("data/lastCoolGuy.txt", "r") as f:
             self.lastCoolGuy = datetime.datetime.strptime(f.read().replace("-",""), "%Y%m%d").date()
+
+        with open("data/combo.txt", "r") as f:
+            self.combo = f.read()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -35,7 +36,8 @@ class FunCog(commands.Cog):
             pass
         
         now = datetime.datetime.now()
-        if now > self.noon and date.today() > self.lastCoolGuy:
+        noon = datetime.datetime.now().replace(hour=12, minute=0, second=0, microsecond=0)
+        if now > noon and date.today() > self.lastCoolGuy:
             with open("data/lastCoolGuy.txt", "w") as f:
                 f.write(str(date.today()))
             self.lastCoolGuy = date.today()
@@ -64,6 +66,45 @@ class FunCog(commands.Cog):
             with open("data/activeUsers.txt", "w") as f:
                 f.write("")
             self.activeUsers = []
+        
+        if (message.channel.id == 718251019661869156):
+
+            count = int(self.combo)
+            nextCountStr = str(count+1)
+
+            if (message.content.startswith(nextCountStr + " ") or (message.content == nextCountStr)):
+                self.combo = count + 1
+                with open("data/combo.txt", "w") as f:
+                    f.write(str(self.combo))
+            elif (not message.author.bot):
+                best = message.channel.topic.split("Best: ", 1)[1]
+
+                countdownMessage = "<@" + str(message.author.id) + "> broke the combo <:luigisad:406759665058185226>"
+                if (count > int(best)):
+                    countdownMessage += " **(NEW BEST: " + str(count) + ")**\nResetting in "
+                    await message.channel.edit(topic="Best: " + str(count))
+                else:
+                    countdownMessage += "\nResetting in "
+
+                #Countdown
+                timer = 10
+                countdown = await message.channel.send(countdownMessage + str(timer) + "...")
+
+                for i in range(timer):
+                    time.sleep(1)
+                    await countdown.edit(content=countdownMessage + str(timer) + "...")
+                    timer -= 1
+
+                #Delete all messages in channel
+                messagesDeleted = await message.channel.purge(limit=100)
+                while (len(messagesDeleted) != 0):
+                    messagesDeleted = await message.channel.purge(limit=100)
+
+                #Reset
+                with open("data/combo.txt", "w") as f:
+                    f.write("0")
+                self.combo = 0
+
 
 
 def setup(client):
