@@ -76,7 +76,7 @@ class FunCog(commands.Cog):
         
         if (message.channel.id == 718251019661869156):
 
-            if (member.guild_permissions.manage_messages == False):
+            if (member.guild_permissions.manage_messages != True):
                 count = int(self.combo)
                 nextCountStr = str(count+1)
 
@@ -108,7 +108,7 @@ class FunCog(commands.Cog):
                         await countdown.edit(content=countdownMessage + "\nResetting in " + str(timer) + "...")
                         timer -= 1
                     
-                    notifChannel = message.guild.get_channel(517129265611800588) #Lore
+                    notifChannel = message.guild.get_channel(718600409652133948) #Lab
                     await notifChannel.send(countdownMessage + "\n> " + message.content)
 
                     #Update Roles
