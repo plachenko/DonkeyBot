@@ -33,7 +33,7 @@ class FunCog(commands.Cog):
     async def on_message(self, message):
         activeUsers = self.activeUsers
         member = message.author
-
+        
         try:
             if str(member.id) not in activeUsers and (member.guild_permissions.manage_messages == False and member.bot == False):
                 activeUsers.append(str(member.id))
@@ -130,12 +130,9 @@ class FunCog(commands.Cog):
                     with open("data/combo.txt", "w") as f:
                         f.write("0")
                     self.combo = 0
-            else:
+            elif (member.guild_permissions.manage_messages and not message.author.bot):
                 await message.delete()
                 await message.author.send("You cannot participate in experiment because you bypass slowmode.")
-
-
-
 
 def setup(client):
     client.add_cog(FunCog(client))
