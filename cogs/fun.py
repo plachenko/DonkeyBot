@@ -79,21 +79,22 @@ class FunCog(commands.Cog):
             elif (not message.author.bot):
                 best = message.channel.topic.split("Best: ", 1)[1]
 
-                countdownMessage = "<@" + str(message.author.id) + "> broke the combo <:luigisad:406759665058185226>"
+                countdownMessage = "<@" + str(message.author.id) + "> broke <#718251019661869156> <:luigisad:406759665058185226>"
                 if (count > int(best)):
-                    countdownMessage += " **(NEW BEST: " + str(count) + ")**\nResetting in "
+                    countdownMessage += " **(NEW BEST: " + str(count) + ")**"
                     await message.channel.edit(topic="Best: " + str(count))
-                else:
-                    countdownMessage += "\nResetting in "
 
                 #Countdown
                 timer = 10
-                countdown = await message.channel.send(countdownMessage + str(timer) + "...")
+                countdown = await message.channel.send(countdownMessage + "\nResetting in " + str(timer) + "...")
 
                 for i in range(timer):
                     time.sleep(1)
-                    await countdown.edit(content=countdownMessage + str(timer) + "...")
+                    await countdown.edit(content=countdownMessage + "\nResetting in " + str(timer) + "...")
                     timer -= 1
+                
+                notifChannel = message.guild.get_channel(284028535155326976) #General
+                await notifChannel.send(countdownMessage)
 
                 #Delete all messages in channel
                 messagesDeleted = await message.channel.purge(limit=100)
