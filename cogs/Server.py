@@ -5,12 +5,12 @@ class Server():
     def __init__(self):
 
         #Server
-        self.server = 284028259027648513
+        self.server = 532749639775027208
 
         #Channels
-        self.generalChannel = 284028535155326976
-        self.experimentChannel = 718251019661869156
-        self.labChannel = 718600409652133948
+        self.generalChannel = 700156067698704404
+        self.experimentChannel = 719379880856518697
+        self.labChannel = 719380062838980689
 
         """         
         testChannel = 717886687715262554
@@ -18,10 +18,10 @@ class Server():
         """
 
         #Roles
-        self.goodRole = 718590952947580950
-        self.badRole = 718590813726179398
-        self.coolGuyRole = 717900752583917598
+        self.goodRole = 719380190127718401
+        self.badRole = 719380237523353600
+        self.coolGuyRole = 719387544705302569
 
         #Important People
-        self.robID = 151486808247500801
+        self.robID = 175151337363734529
 

@@ -1,5 +1,7 @@
 
 .env
-data/activeUsers.txt
-data/lastCoolGuy.txt
-data/combo.txt
+data
+cogs/Server.py
+
+*.pyc
+*.pyo
