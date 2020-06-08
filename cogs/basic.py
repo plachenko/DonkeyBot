@@ -14,11 +14,12 @@ class BasicCog(commands.Cog, Server):
     #Sends the repo to requested channel
     @commands.command()
     async def repo(self, ctx):
+
+        now = datetime.datetime.now()
         
         #Get time since last command issued
         if ("repo" not in self.delays):
-            self.delays["repo"] = datetime.datetime.now()
-        now = datetime.datetime.now()
+            self.delays["repo"] = now
         secondsSince = (now - self.delays["repo"]).total_seconds()
         
         if (secondsSince > 60 or secondsSince == 0.0):
