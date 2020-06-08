@@ -53,7 +53,8 @@ class ExperimentCog(commands.Cog, Server):
                 nextCountStr = str(count+1) #Expected next combo
 
                 #Successful combo
-                firstInt = re.search(r'\d+', message.content).group()
+                regEx = re.search(r'\d+', message.content)
+                firstInt = 0 if regEx is None else regEx.group()
                 if (firstInt == nextCountStr):
 
                     self.combo = count + 1
