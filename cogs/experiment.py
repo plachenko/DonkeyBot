@@ -43,7 +43,6 @@ class ExperimentCog(commands.Cog, Server):
     async def on_message(self, message):
 
         member = message.author
-
         if (message.channel.id == self.experimentChannel):
     
             #Only non-staff can participate in the experiment!
@@ -53,7 +52,8 @@ class ExperimentCog(commands.Cog, Server):
                 nextCountStr = str(count+1) #Expected next combo
 
                 #Successful combo
-                firstInt = re.search(r'\d+', message.content).group()
+                regEx = re.search(r'\d+', message.content)
+                firstInt = 0 if regEx is None else regEx.group()
                 if (firstInt == nextCountStr):
 
                     self.combo = count + 1
@@ -67,9 +67,11 @@ class ExperimentCog(commands.Cog, Server):
                 #Unsuccessful combo
                 elif (not member.bot):
 
+                    print(message.channel.topic)
+
                     best = message.channel.topic.split("Best: ", 1)[1] #Get record from topic
 
-                    countdownMessage = "<@" + str(member.id) + "> broke <#718251019661869156> <:luigisad:406759665058185226>"
+                    countdownMessage = "<@" + str(member.id) + "> broke <#" + str(self.experimentChannel) + "> <:luigisad:406759665058185226>"
                     if (count > int(best)): #If new record, append to message
                         countdownMessage += " **(NEW BEST: " + str(count) + ")**"
                         await message.channel.edit(topic="Best: " + str(count))
