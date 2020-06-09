@@ -3,3 +3,6 @@
 data/activeUsers.txt
 data/lastCoolGuy.txt
 data/combo.txt
+
+*.pyc
+*.pyo
