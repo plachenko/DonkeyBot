@@ -16,7 +16,7 @@ class LabCog(commands.Cog, Server):
 
         Server.__init__(self)
 
-    @tasks.loop(minutes=0.1)
+    @tasks.loop(minutes=10)
     async def Ticker(self):
         if (self.client.get_channel(self.labChannel)):
 
