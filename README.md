@@ -1,11 +1,11 @@
 # Donkey Bot
 
-[![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/videogamedunkey)
+[![Discord](https://img.shields.io/discord/284028259027648513?color=7289DA&label=discord)](https://discord.gg/videogamedunkey)
+[![Python](https://img.shields.io/pypi/pyversions/discord.py.svg)](https://pypi.org/project/discord.py/)
 
 The source code for **Donkey** used on the videogamedunkey Discord server.
 
 - Using the **discord.py** API wrapper: https://github.com/Rapptz/discord.py
-- Python version **Python 3.5.3+**
 - pipenv *(Optional)*: https://pypi.org/project/pipenv/
 
 ### Setup

@@ -31,7 +31,8 @@ class ExperimentCog(commands.Cog, Server):
 
         #Punish griefers
         if ((message.channel.id == self.experimentChannel) and (not member.bot and not member.guild_permissions.manage_messages)): #User was not staff or bot
-            firstInt = re.search(r'\d+', message.content).group()
+            regEx = re.search(r'\d+', message.content)
+            firstInt = 0 if regEx is None else regEx.group()
             await message.channel.send("> " + firstInt + "\n<@" + str(member.id) + ">")
             
             #Remove good role, add bad role

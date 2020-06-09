@@ -8,7 +8,11 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix=commands.when_mentioned, help_command=None)
 
+<<<<<<< HEAD
 initial_extensions = ['cogs.basic','cogs.experiment','cogs.rob'] #Add cog filenames here
+=======
+initial_extensions = ['cogs.basic','cogs.fun','cogs.experiment','cogs.tasks','cogs.rob'] #Add cog filenames here
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
     for extension in initial_extensions:
