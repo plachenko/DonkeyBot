@@ -7,10 +7,10 @@ import datetime
 class BasicCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
+        Server.__init__(self)
+
         self.delays = {} #Keep track of last issued commands
 
-        Server.__init__(self)
-    
     #Sends the repo to requested channel
     @commands.command()
     async def repo(self, ctx):

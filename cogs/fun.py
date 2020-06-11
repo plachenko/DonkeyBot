@@ -12,6 +12,8 @@ class FunCog(commands.Cog, Server):
 
     def __init__(self, client):
         self.client = client
+        Server.__init__(self)
+
         self.noon = datetime.datetime.now().replace(hour=12, minute=0, second=0, microsecond=0)
 
         #List of active user ids
@@ -22,8 +24,6 @@ class FunCog(commands.Cog, Server):
         #Date object of the last cool guy raffle
         with open("data/lastCoolGuy.txt", "r") as f:
             self.lastCoolGuy = datetime.datetime.strptime(f.read().replace("-",""), "%Y%m%d").date()
-
-        Server.__init__(self)
 
     @commands.Cog.listener()
     async def on_message(self, message):

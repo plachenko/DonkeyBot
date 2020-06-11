@@ -12,11 +12,6 @@ class Server():
         self.experimentChannel = 718251019661869156
         self.labChannel = 718600409652133948
 
-        """         
-        testChannel = 717886687715262554
-        - Replace any channels with this for testing purposes 
-        """
-
         #Roles
         self.goodRole = 718590952947580950
         self.badRole = 718590813726179398

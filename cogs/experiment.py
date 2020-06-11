@@ -7,12 +7,11 @@ import re
 class ExperimentCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
+        Server.__init__(self)
 
         #Experiment channel combo
         with open("data/combo.txt", "r") as f:
             self.combo = f.read()
-
-        Server.__init__(self)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
