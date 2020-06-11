@@ -1,8 +1,6 @@
 
 .env
-data/activeUsers.txt
-data/lastCoolGuy.txt
-data/combo.txt
+data/
 
 *.pyc
 *.pyo
