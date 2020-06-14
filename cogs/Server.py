@@ -1,6 +1,12 @@
 import discord
 from discord.ext import commands
 
+""" 
+    Server.py
+    - Contains various specific guild related IDs
+    - Naming scheme must specify the type for setup command (Channel/Role) 
+"""
+
 class Server():
     def __init__(self):
 
