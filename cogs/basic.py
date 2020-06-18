@@ -98,10 +98,8 @@ class BasicCog(commands.Cog, Server):
             timeSince =  now.date() - member.joined_at.date()
 
             days = timeSince.days
-            years = 0
-            while (days >= 365):
-                days = days % 365
-                years += 1
+            years = math.floor(int(days) / 365)
+            days = int(days) - (365 * years)  
             
             await ctx.message.channel.send("<@" + str(member.id) + "> Your next server birthday is `" + birthday +"` :cake:\nTotal Age: `" + str(years) + " years, " + str(days) + " days`")
 
