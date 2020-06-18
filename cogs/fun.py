@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 from .Server import Server
 
+from tinydb import TinyDB, where
+from tinydb.operations import set
+
 import datetime
 from datetime import date
 from random import seed
@@ -12,43 +15,39 @@ class FunCog(commands.Cog, Server):
 
     def __init__(self, client):
         self.client = client
+        self.events = TinyDB('database/events.json')
+
         Server.__init__(self)
 
         self.noon = datetime.datetime.now().replace(hour=12, minute=0, second=0, microsecond=0)
 
-        #List of active user ids
-        with open("data/activeUsers.txt", "r") as f:
-            self.activeUsers = f.read()
-            self.activeUsers = self.activeUsers.split("\n")
+        lastCoolGuy = self.events.get(where('name') == 'coolguy')['last']
+        self.lastCoolGuy = datetime.datetime.strptime(lastCoolGuy.replace("-",""), "%Y%m%d").date()
 
-        #Date object of the last cool guy raffle
-        with open("data/lastCoolGuy.txt", "r") as f:
-            self.lastCoolGuy = datetime.datetime.strptime(f.read().replace("-",""), "%Y%m%d").date()
+        self.activeUsers = self.events.get(where('name') == 'coolguy')['activeUsers']
 
     @commands.Cog.listener()
     async def on_message(self, message):
         
         member = message.author
-        
+
         #Add non-staff to list of active users
         if ((str(member.id) not in self.activeUsers) and (not member.guild_permissions.manage_messages and not member.bot)):
             self.activeUsers.append(str(member.id))
-            with open("data/activeUsers.txt", "a") as f:
-                f.write(str(member.id) + "\n")
-        
+            self.events.update(set('activeUsers', self.activeUsers), where('name') == 'coolguy')
+
         #Cool guy raffle once a day
         now = datetime.datetime.now()
         if (now > self.noon and (date.today() > self.lastCoolGuy)):
 
             #Set date
-            with open("data/lastCoolGuy.txt", "w") as f:
-                f.write(str(date.today()))
             self.lastCoolGuy = date.today()
+            self.events.update(set('last', str(self.lastCoolGuy)), where('name') == 'coolguy')
 
             coolGuyRole = message.guild.get_role(self.coolGuyRole)
 
             #Remove last cool guy(s)
-            coolGuys = coolGuyRole.members
+            coolGuys = [] if coolGuyRole.members is None else coolGuyRole.members
             for coolGuy in coolGuys:
                 await coolGuy.remove_roles(coolGuyRole)
 
@@ -65,9 +64,8 @@ class FunCog(commands.Cog, Server):
             await general.send("<@" + selection + "> won the cool guy raffle! ")
 
             #Reset active users
-            with open("data/activeUsers.txt", "w") as f:
-                f.write("")
             self.activeUsers = []
+            self.events.update(set('activeUsers', self.activeUsers), where('name') == 'coolguy')
 
 def setup(client):
     client.add_cog(FunCog(client))

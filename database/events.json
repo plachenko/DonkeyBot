@@ -1,0 +1,17 @@
+{
+    "_default": {
+        "1": {
+            "name": "ratrace",
+            "next": "2020-06-17 09:08:00"
+        },
+        "2": {
+            "name": "coolguy",
+            "last": "2020-06-17",
+            "activeUsers": []
+        },
+        "3": {
+            "name": "experiment",
+            "combo": "0"
+        }
+    }
+}

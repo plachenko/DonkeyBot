@@ -2,6 +2,9 @@ import discord
 from discord.ext import tasks, commands
 from .Server import Server
 
+from tinydb import TinyDB, where
+from tinydb.operations import set
+
 import random
 import time
 import asyncio
@@ -11,9 +14,12 @@ from datetime import date
 class LabCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
+        self.events = TinyDB('database/events.json')
+
         Server.__init__(self)
 
-        self.ratRaceInit() # RATRACE: Initialize
+        # RATRACE: Start
+        self.ratRaceInit() 
         self.Ticker.start()
 
     @tasks.loop(minutes=10)
@@ -50,8 +56,8 @@ class LabCog(commands.Cog, Server):
     def getNextTime(self):
         now = datetime.datetime.now()
 
-        with open("data/nextRat.txt", "r") as f:
-            self.nextRatDate = f.read()
+        #Get next cheese time
+        self.nextRatDate = self.events.get(where('name') == 'ratrace')['next']
 
         # Check if date exists or less than today otherwise write today in the file
         if (self.nextRatDate == "" or datetime.datetime.strptime(self.nextRatDate, "%Y-%m-%d %H:%M:%S") < now):
@@ -61,10 +67,8 @@ class LabCog(commands.Cog, Server):
         tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
         randTime = tomorrow.replace(hour=random.randint(0, 23), minute=random.randint(0, 59), second=0, microsecond=0)
 
-        with open("data/nextRat.txt", "r+") as f:
-            f.seek(0)
-            f.write(str(randTime))
-            f.truncate()
+        #Set next cheese time
+        self.events.update(set('next', str(randTime)), where('name') == 'ratrace')
 
         self.getNextTime()
 

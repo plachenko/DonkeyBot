@@ -8,9 +8,10 @@ verify_ssl = true
 [packages]
 "discord.py" = "*"
 python-dotenv = "*"
+tinydb = "*"
 
 [requires]
 python_version = "3.8"
 
 [scripts]
-dev = "nodemon --exec python bot.py"
+dev = "nodemon --exec python bot.py --ignore 'database/*'"
