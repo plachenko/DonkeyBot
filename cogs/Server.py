@@ -17,6 +17,7 @@ class Server():
         self.generalChannel = 284028535155326976
         self.experimentChannel = 718251019661869156
         self.labChannel = 718600409652133948
+        self.spamChannel = 302471952566845440
 
         #Roles
         self.goodRole = 718590952947580950
