@@ -23,7 +23,7 @@ class BasicCog(commands.Cog, Server):
     @commands.Cog.listener()
     async def on_message(self, message):
         
-        messageContent = message.content
+        messageContent = message.content.lower()
 
         #If mentioned, parse command
         mention = "<@!" + str(self.client.user.id) + "> "
