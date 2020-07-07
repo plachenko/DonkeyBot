@@ -32,7 +32,7 @@ class FunCog(commands.Cog, Server):
         member = message.author
 
         #Add non-staff to list of active users
-        if ((str(member.id) not in self.activeUsers) and (not member.guild_permissions.manage_messages and not member.bot)):
+        if (not member.bot and (str(member.id) not in self.activeUsers and not member.guild_permissions.manage_messages)):
             self.activeUsers.append(str(member.id))
             self.events.update(set('activeUsers', self.activeUsers), where('name') == 'coolguy')
 
