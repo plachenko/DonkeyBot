@@ -8,7 +8,7 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix=commands.when_mentioned, help_command=None)
 
-initial_extensions = ['cogs.basic','cogs.fun','cogs.experiment','cogs.rob','cogs.lab'] #Add cog filenames here
+initial_extensions = ['cogs.basic','cogs.fun','cogs.experiment','cogs.rob','cogs.lab', 'cogs.minecraft'] #Add cog filenames here
 
 @client.event
 async def on_ready():

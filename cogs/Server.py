@@ -18,11 +18,13 @@ class Server():
         self.experimentChannel = 718251019661869156
         self.labChannel = 718600409652133948
         self.spamChannel = 302471952566845440
+        self.minecraftChannel = 680316844581847049
 
         #Roles
         self.goodRole = 718590952947580950
         self.badRole = 718590813726179398
         self.coolGuyRole = 717900752583917598
+        self.regularRole = 289947714630713344
 
         #Important People
         self.robID = 151486808247500801
