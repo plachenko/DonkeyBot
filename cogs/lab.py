@@ -5,6 +5,7 @@ from .Server import Server
 from tinydb import TinyDB, where
 from tinydb.operations import set
 
+import string
 import random
 import time
 import asyncio
@@ -26,7 +27,7 @@ class LabCog(commands.Cog, Server):
     async def Ticker(self):
 
         await self.checkStart() # RATRACE: Check if it's time to start
-            
+
     @commands.Cog.listener()
     async def on_message(self, message):
 
@@ -83,6 +84,12 @@ class LabCog(commands.Cog, Server):
             self.hasCheese = True
 
     async def checkMessage(self, member, message):
+
+        # HAHAHA momement (hehehe)
+        if (message.content.lower().translate(str.maketrans('', '', string.punctuation)) == "taking a photo say cheese"):
+            haha_msg = "cheese! I got the cheese!!"
+            await self.client.get_channel(self.labChannel).send(haha_msg)
+        
         # Check if a member wrote the secret phrase
         if (message.content.lower() == "cheese" and self.hasCheese):
 
