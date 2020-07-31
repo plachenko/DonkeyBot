@@ -79,16 +79,31 @@ class LabCog(commands.Cog, Server):
 
         # Start the rat race.
         if (nextRatDate <= now and self.hasCheese == False):
-            await self.client.get_channel(self.labChannel).send('Taking a photo, say **cheese**!')
+            self.event = False
             self.hasCheese = True
-
+             self.eventProbability = random.randint(0, 100)
+                
+            if(self.eventProbability > 90):
+                await self.client.get_channel(self.labChannel).send('Taking a photo, say...!!')
+                self.event = True
+            else:
+               await self.client.get_channel(self.labChannel).send('Taking a photo, say **cheese**!')
+               
     async def checkMessage(self, member, message):
         # Check if a member wrote the secret phrase
         if (message.content.lower() == "cheese" and self.hasCheese):
 
             # Announce the lucky person and reset
-            msg = "<@" + str(member.id) + "> got the cheese!"
-            await self.client.get_channel(self.labChannel).send(msg)
+            if(self.event):
+                msg = "/me sends a flash of light into your smiling bright gaze. As your eyes adjust you see a slender female figure walk from behind you. Ghislaine. An old friend." 
+                await self.client.get_channel(self.labChannel).send(msg)
+                msg = "**Cheese.**"
+                await self.client.get_channel(self.labChannel).send(msg)
+         
+                msg = "<@" + str(member.id) + "> got the bad cheese!"
+            else:
+                msg = "<@" + str(member.id) + "> got the cheese!"
+                await self.client.get_channel(self.labChannel).send(msg)
             
             # Give good role to bad rolers
             if (message.guild.get_role(self.badRole) in member.roles):
