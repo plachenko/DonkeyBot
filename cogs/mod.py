@@ -2,12 +2,16 @@ import discord
 from discord.ext import commands
 from .Server import Server
 
+from tinydb import TinyDB, where
+from tinydb.operations import set
+
 import re
 import datetime
 
 class ModCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
+        self.users = TinyDB('database/users.json')
 
         Server.__init__(self)
 
@@ -68,15 +72,23 @@ class ModCog(commands.Cog, Server):
 
         user = self.parseUser(user)
         message = ctx.message
+        #savedRoles = [] if self.users.get(where('id') == user.id) is None or 'roles' not in self.users.get(where('id') == user.id) else self.users.get(where('id') == user.id)['roles']
 
+        
         if (user is None):
             await ctx.message.channel.send("Could not find user")
         elif (message.guild.get_role(self.notseriousRole) not in user.roles):
             await user.add_roles(message.guild.get_role(self.notseriousRole))
             await self.logAction("Gave \"Not Serious\" Role", message)
+
+            #savedRoles.append(self.notseriousRole)
+            #self.users.upsert({ 'id': user.id, 'roles': savedRoles }, where('id') == user.id)
         else:
             await user.remove_roles(message.guild.get_role(self.notseriousRole))
             await self.logAction("Removed \"Not Serious\" Role", message)
+
+            #savedRoles.remove(self.notseriousRole)
+            #self.users.upsert({ 'id': user.id, 'roles': savedRoles }, where('id') == user.id)
 
 def setup(client):
     client.add_cog(ModCog(client))

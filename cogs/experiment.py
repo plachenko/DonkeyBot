@@ -22,7 +22,7 @@ class ExperimentCog(commands.Cog, Server):
     @commands.Cog.listener()
     async def on_member_join(self, member):
 
-        #Give experiment roles
+        #Give saved roles
         server = self.client.get_guild(self.server)
 
         roles = [] if self.users.get(where('id') == member.id) is None else self.users.get(where('id') == member.id)['roles']
@@ -77,19 +77,21 @@ class ExperimentCog(commands.Cog, Server):
                     canPost = False
                 else:
                     now = datetime.datetime.now()
-                    last = datetime.datetime.now()
 
                     if ('experimentTS' in self.users.get(where('id') == member.id)):
+
                         last = datetime.datetime.strptime(self.users.get(where('id') == member.id)['experimentTS'], "%Y-%m-%d %H:%M:%S")
 
-                    if ((now - last).total_seconds() > message.channel.slowmode_delay):
-                        self.users.upsert({ 'experimentTS': str(datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")) }, where('id') == member.id)
+                        if ((now - last).total_seconds() >= message.channel.slowmode_delay):
+                            self.users.upsert({ 'experimentTS': str(datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")) }, where('id') == member.id)
+                        else:
+                            canPost = False
+                            try:
+                                await member.send("That channel has slowmode and you can't bypass it! haha!")
+                            except:
+                                pass #Cannot send message to this user
                     else:
-                        canPost = False
-                        try:
-                            await member.send("That channel has slowmode and you can't bypass it! haha!")
-                        except:
-                            pass #Cannot send message to this user
+                        self.users.upsert({ 'experimentTS': str(datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")) }, where('id') == member.id)
 
             if canPost:
                 count = int(self.combo)
@@ -135,8 +137,6 @@ class ExperimentCog(commands.Cog, Server):
                         await member.remove_roles(message.guild.get_role(self.goodRole))
                     await member.add_roles(message.guild.get_role(self.badRole))
                     self.users.upsert({ 'id': member.id, 'roles': [ self.badRole ] }, where('id') == member.id)
-
-                    
 
                     #Delete all messages in the channel
                     messagesDeleted = await message.channel.purge(limit=100)
