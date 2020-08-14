@@ -15,6 +15,7 @@ class LabCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
         self.events = TinyDB('database/events.json')
+        self.users = TinyDB('database/users.json')
 
         Server.__init__(self)
 
@@ -24,7 +25,6 @@ class LabCog(commands.Cog, Server):
 
     @tasks.loop(minutes=10)
     async def Ticker(self):
-
         await self.checkStart() # RATRACE: Check if it's time to start
             
     @commands.Cog.listener()
@@ -64,8 +64,8 @@ class LabCog(commands.Cog, Server):
             self.setNextTime()
 
     def setNextTime(self):
-        tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-        randTime = tomorrow.replace(hour=random.randint(0, 23), minute=random.randint(0, 59), second=0, microsecond=0)
+        now = datetime.datetime.now()
+        randTime = (now + datetime.timedelta(hours=random.randint(12, 23))).replace(minute=random.randint(0, 59), second=0, microsecond=0)
 
         #Set next cheese time
         self.events.update(set('next', str(randTime)), where('name') == 'ratrace')
@@ -94,6 +94,9 @@ class LabCog(commands.Cog, Server):
             if (message.guild.get_role(self.badRole) in member.roles):
                 await member.remove_roles(message.guild.get_role(self.badRole))
                 await member.add_roles(message.guild.get_role(self.goodRole))
+            
+            #Add cheese count to DB
+            
             
             self.hasCheese = False
             self.setNextTime()
