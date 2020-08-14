@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 from .Server import Server
 
 from tinydb import TinyDB, where
@@ -16,6 +16,7 @@ class FunCog(commands.Cog, Server):
     def __init__(self, client):
         self.client = client
         self.events = TinyDB('database/events.json')
+        self.users = TinyDB('database/users.json')
 
         Server.__init__(self)
 
@@ -25,6 +26,18 @@ class FunCog(commands.Cog, Server):
         self.lastCoolGuy = datetime.datetime.strptime(lastCoolGuy.replace("-",""), "%Y%m%d").date()
 
         self.activeUsers = self.events.get(where('name') == 'coolguy')['activeUsers']
+
+        self.CheckBirthday.start()
+    
+    @tasks.loop(hours=24)
+    async def CheckBirthday(self):
+
+        userBirthdays = self.users.search(where('birthday').exists())
+
+        for user in userBirthdays:
+            if (user['birthday'] == str(datetime.datetime.now().date())):
+                general = self.client.get_guild(self.server).get_channel(self.generalChannel)
+                await general.send("**Happy Birthday <@" + str(user['id']) + ">!** :birthday: :tada:")
 
     @commands.Cog.listener()
     async def on_message(self, message):
