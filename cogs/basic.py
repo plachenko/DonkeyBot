@@ -29,6 +29,8 @@ class BasicCog(commands.Cog, Server):
         mention = "<@!" + str(self.client.user.id) + "> "
         if (mention in messageContent):
             messageContent = messageContent.replace(mention, "")
+        elif (messageContent.startswith(">")):
+            messageContent = messageContent[1:]
 
         #Get command
         command = self.commands.get(where('use') == messageContent)
