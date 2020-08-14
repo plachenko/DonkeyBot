@@ -17,7 +17,7 @@ class RobCog(commands.Cog, Server):
         Server.__init__(self)
     
     async def isRob(ctx):
-        if (ctx.message.author.id == 151486808247500801): #  rob#1234 ID
+        if (ctx.message.author.id == ctx.message.guild.owner_id): #Server Owner
             await ctx.message.delete() #Delete command usage
             return True
         return False

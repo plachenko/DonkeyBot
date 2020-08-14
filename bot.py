@@ -6,15 +6,15 @@ load_dotenv() #Load .env file, contains bot secret
 import discord
 from discord.ext import commands
 
-client = commands.Bot(command_prefix=commands.when_mentioned, help_command=None)
+client = commands.Bot(command_prefix=commands.when_mentioned_or('>'), help_command=None)
 
-initial_extensions = ['cogs.basic','cogs.fun','cogs.experiment','cogs.rob','cogs.lab', 'cogs.minecraft'] #Add cog filenames here
+initial_extensions = ['cogs.mod', 'cogs.basic','cogs.fun','cogs.experiment','cogs.rob','cogs.lab', 'cogs.minecraft'] #Add cog filenames here
 
 @client.event
 async def on_ready():
     print("Logged in")
-    game = discord.Game("ALL HAIL ROB") #Never ever change this because it is the truth
-    await client.change_presence(activity=game)
+    presence = discord.Activity(type=discord.ActivityType.watching, name="ASTRO alts")
+    await client.change_presence(activity=presence)
 
     if __name__ == '__main__':
         for extension in initial_extensions:

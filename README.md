@@ -8,12 +8,6 @@ The source code for **Donkey** used on the videogamedunkey Discord server.
 - Using the **discord.py** API wrapper: https://github.com/Rapptz/discord.py
 - pipenv *(Optional)*: https://pypi.org/project/pipenv/
 
-#### Contributing to Donkey - The Manifesto
-
-As a modest programmer myself, I always disliked seeing rude and antagonistic comments from self-righteous people in response to tech questions in forums and servers. It's for this reason that I ask any and all contributors to be patient, encouraging, and open to anyone interested in contributing to this project. This is a fun and lighthearted project built by, and for, a community that does not take itself seriously. The more beginners that can contribute to this project, the better Donkey will become.
-
-~ *OKJ*
-
 #### Contributing to Donkey
 
 1. Fork the project (Creates a copy of the code that you can edit on github)

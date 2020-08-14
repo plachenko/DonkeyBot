@@ -9,6 +9,7 @@ verify_ssl = true
 "discord.py" = "*"
 python-dotenv = "*"
 tinydb = "*"
+requests = "*"
 
 [requires]
 python_version = "3.8"
