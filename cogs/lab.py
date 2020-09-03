@@ -36,8 +36,8 @@ class LabCog(commands.Cog, Server):
         # Listen to lab channel messages
         if (message.channel.id == self.labChannel):
 
-            # Mods canonically mentally unstable and unreliable.
-            if (not member.guild_permissions.manage_messages):
+            # Cheese kills bots so don't let them have it
+            if (not member.bot):
 
                 await self.checkMessage(member, message) # RATRACE: check member message when it's time
 
