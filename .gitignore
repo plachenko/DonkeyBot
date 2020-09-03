@@ -1,7 +1,4 @@
-
 .env
-data/*
-cogs/Server.py
-
 *.pyc
 *.pyo
+database/
